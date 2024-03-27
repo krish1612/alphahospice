@@ -3,7 +3,6 @@ const router = express.Router();
 const mongoose = require("mongoose");
 
 const SupportWard = require("../../models/SupportWard");
-const { database } = require("faker/lib/locales/en");
 
 router.get("/get", async (req, res) => {
   try {

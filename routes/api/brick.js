@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const faker = require("faker");
 const auth = require("../../middleware/auth");
 const nodemailer = require("nodemailer");
 
@@ -36,53 +35,6 @@ router.post("/initial", async (req, res) => {
     console.error("Error inserting fake data:", error);
   }
 });
-
-// router.post("/initial", async (req, res) => {
-// 	try {
-// 		const fakeBricks = [];
-// 		const count = 35000;
-
-// 		await Brick.deleteMany({});
-
-// 		const users = await User.find();
-// 		let j = 0;
-// 		const percent = req.body.count / count;
-// 		for (let i = 0; i < count; i++) {
-// 			if (Math.random() < percent) {
-// 				fakeBricks.push({
-// 					user: users[j]._id,
-// 					brick_id: bricksID[i],
-// 					amount: faker.datatype.number({ max: 10 }),
-// 					date: faker.date.past(1),
-// 					dedication: {
-// 						name: faker.name.findName(),
-// 						relationship: faker.lorem.word(),
-// 						message: faker.lorem.sentence(),
-// 						image: {
-// 							imageName: faker.system.fileName(),
-// 							imagePath: faker.image.imageUrl(),
-// 						},
-// 					},
-// 					sold: true,
-// 					fake: true,
-// 				});
-// 				j++;
-// 			} else {
-// 				fakeBricks.push({
-// 					brick_id: bricksID[i],
-// 					sold: false,
-// 				});
-// 			}
-// 		}
-
-// 		await Brick.insertMany(fakeBricks);
-// 		res.json(`Successfully added ${count} fake bricks.`);
-// 	} catch (error) {
-// 		console.error("Error inserting fake data:", error);
-// 	}
-// });
-
-//get sold amound for wallofbrick
 
 router.get("/sold-amount", async (req, res) => {
   await Brick.find({ sold: true })
@@ -182,20 +134,6 @@ function getRandomNeighbors(matrixRows, matrixCols, i, j, count) {
 const rows = 320;
 const cols = 125;
 
-// const getRandom = async (brick_id, amount) => {
-//   console.log(brick_id)
-//   const brick = await Brick.find({brick_id: brick_id});
-//   let id = [];
-//   const number = brick[0].no;
-//   id.push(brick[0].no);
-//   const i = number % 320;
-//   const j = Math.floor(number / rows);
-//   const randomNeighbors = getRandomNeighbors(rows, cols, i, j, amount);
-//   randomNeighbors.map((key) => {
-//     id.push(key[1] * rows + key[0]);
-//   });
-//   return id
-// }
 
 router.post("/buy", async (req, res) => {
   const { brick_id, user, amount, stage } = req.body;
