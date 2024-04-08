@@ -83,7 +83,7 @@ const Home = () => {
   const loadImage = () => {
     fileList.forEach((name) => {
       // Changed from map to forEach since you don't use the returned array
-      fetch(`${import.meta.env.VITE_BACKEND_URL}/uploads/${name}.txt`)
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/upload/${name}.txt`)
         .then((response) => response.text())
         .then((base64Text) => {
           setImageSrc((prevImgSrc) => ({
