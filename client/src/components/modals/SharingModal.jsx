@@ -25,8 +25,8 @@ const SharingModal = ({ hideModal }) => {
     }
   };
 
-  const shareUrl = "https://learning-rattler-vastly.ngrok-free.app";
-  const shareimage = "https://learning-rattler-vastly.ngrok-free.app/share.jpg";
+  const shareUrl = "https://api.alphahospice.org";
+  const shareimage = "https://api.alphahospice.org/share.jpg";
 
   return (
     <div
