@@ -14,7 +14,7 @@ router.post("/image", async (req, res) => {
     await Promise.all(
       files.map(async (file) => {
         if (imageData[file] !== "") {
-          const filePath = `./upload/${file}.txt`;
+          const filePath = `upload/${file}.txt`;
           // Write the Base64 string to file asynchronously
           await fs.writeFile(filePath, imageData[file]);
         }
