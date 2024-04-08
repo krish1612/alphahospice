@@ -34,6 +34,8 @@ router.post("/insert", async (req, res) => {
       pin,
     };
 
+    console.log("newDonor",newDonor)
+
     // Perform the upsert operation
     const result = await Donor.updateOne(
       { user: userId },
@@ -66,14 +68,7 @@ router.post("/insert", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
-// {
-//   $lookup: {
-//     from: "users",
-//     localField: "user",
-//     foreignField: "_id",
-//     as: "donor",
-//   },
-// },
+
 router.get("/current-donors", async (req, res) => {
   try {
     const result = await Brick.aggregate([
@@ -101,13 +96,6 @@ router.get("/current-donors", async (req, res) => {
           _id: 0,
           user: "$donorInfo.user",
           fullName: "$donorInfo.fullName",
-          // email: "$donorInfo.email",
-          // mobile: "$donorInfo.mobile",
-          // address: "$donorInfo.address",
-          // country: "$donorInfo.country",
-          // state: "$donorInfo.state",
-          // pin: "$donorInfo.pin",
-          // pan: "$donorInfo.pan",
           purchasedBricksCount: 1,
         },
       },
@@ -124,13 +112,6 @@ router.get("/current-donors", async (req, res) => {
         $project: {
           avatar: "$user.picture",
           fullName: 1,
-          // email: 1,
-          // mobile: 1,
-          // address: 1,
-          // country: 1,
-          // state: 1,
-          // pin: 1,
-          // pan: 1,
           purchasedBricksCount: 1,
         },
       },
@@ -140,73 +121,6 @@ router.get("/current-donors", async (req, res) => {
     res.status(500).send("Server error", error);
   }
 });
-
-// router.get("/allDonorInfo", async (req, res) => {
-// 	try {
-// 		const result = await Brick.aggregate([
-// 			{ $match: { sold: true } },
-// 			{
-// 				$sort: { date: 1 },
-// 			},
-// 			{
-// 				$group: {
-// 					_id: "$user",
-// 					purchasedBricksCount: { $sum: 1 },
-// 				},
-// 			},
-// 			{
-// 				$lookup: {
-// 					from: "donors",
-// 					localField: "_id",
-// 					foreignField: "user",
-// 					as: "donorInfo",
-// 				},
-// 			},
-// 			{ $unwind: "$donorInfo" },
-// 			{
-// 				$project: {
-// 					_id: 0,
-// 					user: "$donorInfo.user",
-// 					fullName: "$donorInfo.fullName",
-// 					// email: "$donorInfo.email",
-// 					// mobile: "$donorInfo.mobile",
-// 					// address: "$donorInfo.address",
-// 					// country: "$donorInfo.country",
-// 					// state: "$donorInfo.state",
-// 					// pin: "$donorInfo.pin",
-// 					// pan: "$donorInfo.pan",
-// 					purchasedBricksCount: 1,
-// 				},
-// 			},
-// 			{
-// 				$lookup: {
-// 					from: "users",
-// 					localField: "user",
-// 					foreignField: "_id",
-// 					as: "user",
-// 				},
-// 			},
-// 			{ $unwind: "$user" },
-// 			{
-// 				$project: {
-// 					avatar: "$user.picture",
-// 					fullName: 1,
-// 					// email: 1,
-// 					// mobile: 1,
-// 					// address: 1,
-// 					// country: 1,
-// 					// state: 1,
-// 					// pin: 1,
-// 					// pan: 1,
-// 					purchasedBricksCount: 1,
-// 				},
-// 			},
-// 		]);
-// 		res.status(200).json(result);
-// 	} catch (error) {
-// 		res.status(500).send("Server error", error);
-// 	}
-// });
 
 router.get("/donorcount", async (req, res) => {
   try {
@@ -221,12 +135,13 @@ router.get("/donorcount", async (req, res) => {
 
 router.post("/get-donor", async (req, res) => {
   try {
+    console.log(req.body)
     Donor.findOne({ user: req.body.userId }).then((response) => {
       res.json(response);
     });
   } catch {
     (e) => {
-      console.logo(e);
+      res.json(e);
     };
   }
 });

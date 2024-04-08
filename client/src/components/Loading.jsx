@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Loading = ({ loading }) => {
   return (
     loading && (
-      <div className='flex left-0 top-0 w-full h-full bg-gray-300 opacity-95 justify-center items-center absolute z-50'>
+      <div className='flex left-0 top-0 w-full h-full bg-gray-300 opacity-95 justify-center items-center absolute' style={{zIndex: 999}}>
         <Oval
           height={80}
           width={80}

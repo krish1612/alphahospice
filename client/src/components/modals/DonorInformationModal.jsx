@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
-import { addDonorInfo } from "../../features/donorSlice";
-import { FaAnglesRight } from "react-icons/fa6";
 import PropTypes from "prop-types";
+import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import lookup from "country-code-lookup";
+
+import { FaAnglesRight } from "react-icons/fa6";
+
+import { addDonorInfo } from "../../features/donorSlice";
 
 const DonorInformationModal = ({ handleNextModal }) => {
+  const dispatch = useDispatch();
+
   const [fullName, setName] = useState("");
   const [mobile, setMobile] = useState("");
+  const [country, setCountry] = useState(null);
   const [email, setEmail] = useState("");
   const [pan, setPan] = useState("");
   const [aadhaar, setAadhaar] = useState("");
@@ -17,8 +25,8 @@ const DonorInformationModal = ({ handleNextModal }) => {
     mobile: "",
     pan: "",
   });
-
   const { token } = useSelector((state) => state.auth);
+  const donor = useSelector((state) => state.donor);
 
   useEffect(() => {
     if (token) {
@@ -31,24 +39,19 @@ const DonorInformationModal = ({ handleNextModal }) => {
     }
   }, [token]);
 
-  const donor = useSelector((state) => state.donor);
-
   useEffect(() => {
     if (donor.donorInfo) {
-      const { mobile, pan, aadhaar } = donor.donorInfo;
-      setMobile(mobile);
+      const { pan, aadhaar, country, mobile } = donor.donorInfo;
       setPan(pan);
       setAadhaar(aadhaar);
+      if (mobile) {
+        setMobile(mobile);
+      } else {
+        setCountry(country);
+      }
     }
   }, [donor]);
 
-  const dispatch = useDispatch();
-
-  function validateMobileNumber(mobileNumber) {
-    const pattern = /^\d{7,11}$/;
-    console.log(typeof mobileNumber, pattern.test(mobileNumber));
-    return pattern.test(mobileNumber);
-  }
   // Make sure validateEmail function is defined
   function isValidEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -76,14 +79,11 @@ const DonorInformationModal = ({ handleNextModal }) => {
       newErrors.email = "Please enter a valid email address";
     }
 
-    // Validate Mobile Number
-    if (!mobile.trim()) {
-      newErrors.mobile = "Mobile number is required";
-    } else if (!validateMobileNumber(mobile)) {
-      newErrors.mobile = "Please enter a valid phone number(7~9 numbers)";
+    if (!isPossiblePhoneNumber(mobile)) {
+      newErrors.mobile = "Please enter a valid Phone number";
     }
 
-    if (pan.trim()) {
+    if (pan && pan.trim()) {
       if (!isValidPAN(pan)) {
         newErrors.pan = "Please enter a valid PAN number";
       }
@@ -97,7 +97,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
         fullName,
         mobile,
         email,
-        pan: pan.toUpperCase(),
+        pan: pan && pan.toUpperCase(),
         aadhaar,
       };
       dispatch(addDonorInfo(infoData));
@@ -113,8 +113,21 @@ const DonorInformationModal = ({ handleNextModal }) => {
     return classes.filter(Boolean).join(" ");
   };
 
+  const phone = {
+    border: "1px solid #8d8d8d",
+    padding: "8px 6px",
+    borderRadius: "8px",
+    focus: "outline-none",
+  };
+
+  const textInputStyle = {
+    outlineStyle: "none",
+  };
+
+  console.log("==", mobile, errors);
+
   return (
-    <>
+    <div className="flex flex-col items-center">
       <p className="text-2xl sm:text-4xl font-medium font-montserrat px-8">
         Donor Information
       </p>
@@ -129,7 +142,6 @@ const DonorInformationModal = ({ handleNextModal }) => {
         type="text"
         name="fullName"
         value={fullName}
-        maxLength={20}
         onChange={(e) => setName(e.target.value)}
         onFocus={handleFocus}
         className={classNames(
@@ -149,7 +161,6 @@ const DonorInformationModal = ({ handleNextModal }) => {
         type="email"
         name="email"
         value={email}
-        maxLength={20}
         onFocus={handleFocus}
         onChange={(e) => setEmail(e.target.value)}
         className={classNames(
@@ -165,23 +176,17 @@ const DonorInformationModal = ({ handleNextModal }) => {
         </p>
       )}
 
-      <input
-        type="tel"
+      <PhoneInput
+        textInputStyle={textInputStyle}
         name="mobile"
-        value={mobile}
-        maxLength={20}
+        style={phone}
+        defaultCountry={country ? lookup.byCountry(country).iso2 : "SG"}
+        placeholder="Enter phone number"
         onFocus={handleFocus}
-        onChange={(e) => {
-          // Update the state only with numeric input or empty string (to allow deletion)
-          if (/^\d*$/.test(e.target.value)) {
-            setMobile(e.target.value);
-          }
-        }}
-        className={classNames(
-          "border border-gray-400 rounded-lg text-sm sm:text-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
-          errors.mobile && "border-red-400"
-        )}
-        placeholder="Mobile"
+        value={mobile}
+        onChange={setMobile}
+        withCountryCallingCode
+        international
       />
       {errors.mobile && (
         <p className="text-red-400 text-xs text-left w-4/5 sm:w-2/3">
@@ -193,13 +198,8 @@ const DonorInformationModal = ({ handleNextModal }) => {
         type="text"
         name="pan"
         value={pan}
-        maxLength={20}
         onFocus={handleFocus}
-        onChange={(e) => {
-          if (/^\d*$/.test(e.target.value)) {
-            setPan(e.target.value);
-          }
-        }}
+        onChange={(e) => setPan(e.target.value)}
         className={classNames(
           "border border-gray-400 rounded-lg text-sm sm:text-lg w-4/5 sm:w-2/3 my-2 px-4 py-1.5 sm:py-2",
           errors.pan && "border-red-400"
@@ -227,7 +227,7 @@ const DonorInformationModal = ({ handleNextModal }) => {
           ADD ADDRESS <FaAnglesRight />
         </span>
       </button>
-    </>
+    </div>
   );
 };
 

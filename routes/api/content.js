@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
-
 const Content = require("../../models/Content");
 
 router.get("/getContents", async (req, res) => {
@@ -29,7 +27,7 @@ router.post("/update", async (req, res) => {
       { $set: contentData },
       { new: true, upsert: true }
     );
-
+    console.log("updateResult", updateResult)
     // If the operation was successful, send the updated document back to the client.
     res.status(200).json({
       message: "Content updated successfully",

@@ -55,7 +55,7 @@ const WordsofSupportsModal = ({ hideModal }) => {
       className="fixed flex h-full w-full overflow-y-auto justify-center items-center z-50"
       onClick={handleClose}
     >
-      <div className="w-5/6 sm:w-2/3 md:w-2/3 2xl:w-7/12 h-2/3 sm:h-4/5 lg:h-1/2 xl:h-2/3 flex bg-white shadow-md shadow-gray-500 rounded-md relative">
+      <div className="w-5/6 sm:w-[48rem] h-1/2 sm:h-[32rem] flex bg-white shadow-md shadow-gray-500 rounded-md relative">
         <IoClose
           className="absolute top-4 right-4 cursor-pointer w-8 h-8"
           onClick={() => hideModal()}
@@ -67,12 +67,12 @@ const WordsofSupportsModal = ({ hideModal }) => {
             className="rounded-l-md object-cover w-full h-full"
           />
         </div>
-        <div className="w-full lg:w-1/2 h-full px-8 md:px-12 py-12 flex flex-col justify-evenly rounded-r-md items-center gap-3">
+        <div className="w-full sm:w-1/2 h-full px-8 md:px-12 py-12 flex flex-col justify-evenly rounded-r-md items-center gap-3">
           <div className="flex flex-col gap-2">
-            <p className="text-2xl sm:text-4xl lg:text-2xl xl:text-4xl 2xl:text-4xl font-montserrat font-bold">
+            <p className="text-2xl sm:text-[2rem] font-montserrat font-bold">
               Words of Support
             </p>
-            <p className="w-full text-center text-gray-600">
+            <p className="w-full text-center text-gray-600 text-[0.8rem]">
               You&rsquo;re a hero! Thank you for supporting our hospice
               initiative. Can you help inspire others to join this initiative by
               sharing a few words of support?
@@ -83,11 +83,11 @@ const WordsofSupportsModal = ({ hideModal }) => {
             placeholder="Message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="w-full max-h-56 h-2/5 2xl:h-48 p-2 border border-gray-200 hover:border-sky-300 outline-none rounded-sm"
+            className="w-full min-h-16 max-h-32 h-[8rem] p-2 border border-gray-200 focus:border-purple-600 outline-none rounded-sm"
           />
           <button
             onClick={handleSubmit}
-            className="w-full py-1 md:py-2 mt-3 rounded-lg border-2 border-sky-700 hover:bg-sky-800 hover:text-white font-montserrat text-center"
+            className="px-[4rem] py-[0.2rem] rounded-lg border-2 border-sky-700 hover:bg-sky-800 hover:text-white font-montserrat text-center"
           >
             Send
           </button>

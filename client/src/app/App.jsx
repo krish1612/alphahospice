@@ -23,6 +23,7 @@ import Dashboard from "../components/Admin/Dashboard";
 import BrickTable from "../components/Admin/BrickTable";
 import DonorTable from "../components/Admin/DonorTable";
 import ManageContent from "../components/Admin/ManageContent";
+import Trustee from "../components/Admin/Trustee";
 import SMM from "../components/Admin/SMM"
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
             <Route path="bricks" element={<BrickTable />} />
             <Route path="donors" element={<DonorTable />} />
             <Route path="manage" element={<ManageContent />} />
+            <Route path="trustee" element={<Trustee />} />
             <Route path="smm" element={<SMM />} />
           </Route>
           <Route path="/" exact element={<Home />} />

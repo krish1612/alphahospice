@@ -30,6 +30,7 @@ import VideoModal from "../components/WallofHope/Video";
 import DedicatedBrickInfoModal from "../components/modals/DedicatedBrickInfoModal";
 // import NewShareModal from "../components/modals/newShareModal";
 import SharingModal from "../components/modals/SharingModal";
+import { getContents } from "../actions/content";
 
 const Buybrick = () => {
   const quarter = import.meta.env.VITE_BRICK_COUNT / 4;
@@ -57,13 +58,11 @@ const Buybrick = () => {
       setUserId(null);
     }
   }, [token, dispatch]);
-
   // Initialize bircks states
   useEffect(() => {
     dispatch(getBricks());
     dispatch(getBrickSoldAmount());
   }, [dispatch]);
-
   // Fetch brick states
   const { bricks } = useSelector((state) => state.brick);
   const { amount } = useSelector((state) => state.brick.current);
@@ -79,6 +78,20 @@ const Buybrick = () => {
   const [search, setSearch] = useState(null);
   const [donorname, setDonorName] = useState("");
   const [dedicatedBrickId, setDedicatedBrickId] = useState("");
+
+  const { contents } = useSelector((state) => state.content);
+
+  const [video1, setVideo1] = useState(""); 
+  const [video2, setVideo2] = useState(""); 
+
+  useEffect(() => {
+    dispatch(getContents());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (contents.HOPVideo1 !== "") setVideo1(contents.HOPVideo1);
+    if (contents.HOPVideo2 !== "") setVideo2(contents.HOPVideo2);
+  }, [contents]);
 
   const handleSetFiltered = useCallback((value) => {
     setFiltered(value);
@@ -126,7 +139,8 @@ const Buybrick = () => {
   const [isWordsofSupportModalOpen, setIsWordsofSupportModalOpen] =
     useState(false);
   const [dedicatedBrickModalOpen, setDedicatedBrickModalOpen] = useState(false);
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isVideoModalOpen1, setIsVideoModalOpen1] = useState(true);
+  const [isVideoModalOpen2, setIsVideoModalOpen2] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const [modalContent, setModalContent] = useState(0);
@@ -623,18 +637,32 @@ const Buybrick = () => {
           hideModal={() => handleSetIsSoldModalOpen(false)}
         />
       )}
-      {isPopupOpen && (
+      {isPopupOpen && !isVideoModalOpen1 && !isVideoModalOpen2 && (
         <Popup
           hideModal={handleClosePopup}
           setDonorName={handleClickDonorName}
-          handleClickVideo={() => setIsVideoModalOpen(true)}
+          handleClickVideo={() => setIsVideoModalOpen1(true)}
           setIsWordsofSupportModalOpen={() =>
             setIsWordsofSupportModalOpen(true)
           }
         />
       )}
-      {isVideoModalOpen && (
-        <VideoModal hideModal={() => setIsVideoModalOpen(false)} />
+
+      {(isVideoModalOpen1 || isVideoModalOpen2) && (
+        <div className="w-full h-full flex flex-col items-center justify-center sm:flex-row mt-[2rem] sm:mt-0 gap-[2rem] fixed z-50">
+          {isVideoModalOpen1 && video1 != "" && (
+            <VideoModal
+              hideModal={() => setIsVideoModalOpen1(false)}
+              url={video1}
+            />
+          )}
+          {isVideoModalOpen2 && video2 != "" && (
+            <VideoModal
+              hideModal={() => setIsVideoModalOpen2(false)}
+              url={video2}
+            />
+          )}
+        </div>
       )}
       {isWordsofSupportModalOpen && (
         <WordsofSupportsModal

@@ -77,14 +77,14 @@ const DonorTable = () => {
   const today = new Date();
 
   return (
-    <div className="w-full py-12">
+    <div className="w-full sm:py-12">
       <div>
         <p className="font-raleway font-medium text-center text-4xl py-4">
           Our Donors
         </p>
         <hr className="w-full" />
       </div>
-      <div className="w-full flex justify-between pt-12 pb-1">
+      <div className="w-full flex flex-wrap justify-between sm:pt-12 pb-1">
         <p className="text-xl">
           {donor} Donors as on {today.getFullYear()}/{today.getMonth() + 1}/
           {today.getDate()}
@@ -93,11 +93,11 @@ const DonorTable = () => {
           name="search"
           value={search}
           placeholder="Search for all fields.."
-          className="border border-gray-400 p-2 pr-12 rounded-md ml-auto"
+          className="border border-gray-400 p-2 pr-12 rounded-md mr-auto sm:ml-auto"
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-      <table className="w-full px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24">
+      <table className="w-full px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mt-4">
         <thead className="font-montserrat font-semibold text-sky-600">
           <tr>
             <td rowSpan="2">No</td>

@@ -40,7 +40,7 @@ const SharingModal = ({ hideModal }) => {
         style={{ zIndex: 999 }}
       >
         <div className="w-full flex justify-between">
-          <p className="text-2xl font-bold mt-5 px-8">Help by Sharing...</p>
+          <p className="text-xl text-start font-bold mt-5 px-8">Help by Sharing...</p>
           <IoCloseCircleOutline
             onClick={() => hideModal()}
             size={24}

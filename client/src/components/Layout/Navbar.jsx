@@ -26,7 +26,7 @@ export default function Navbar() {
 
   const DropdownNavbar = () => (
     <div
-      className="text-center flex flex-col bg-gray-300 shadow-md shadow-gray-500 absolute py-4 top-12 rounded-md opacity-90 text-gray-700"
+      className="text-center flex flex-col bg-gray-100 shadow-md shadow-gray-500 absolute py-4 top-12 rounded-md opacity-90 text-gray-700"
       style={{ zIndex: 999 }}
     >
       {userRole === 2 && (

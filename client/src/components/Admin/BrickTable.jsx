@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import ScrollToTop from "react-scroll-to-top";
 
 import { clearLoading, setLoading } from "../../features/loadingSlice";
@@ -15,7 +16,6 @@ import { FaSortAmountDownAlt } from "react-icons/fa";
 import { TbArrowsSort } from "react-icons/tb";
 import { getBrickSoldAmount } from "../../actions/brick";
 
-import "react-confirm-alert/src/react-confirm-alert.css";
 
 
 const BrickTable = () => {
@@ -111,7 +111,7 @@ const BrickTable = () => {
   const today = new Date();
 
   return (
-    <div className="w-full py-12">
+    <div className="w-full sm:py-12">
       <div>
         <p className="font-raleway font-medium text-4xl py-4 text-center">
           All Brick Data
@@ -122,8 +122,8 @@ const BrickTable = () => {
         <div className="w-full flex justify-end">
           <button onClick={handleReset} className="bg-gray-800 text-white hover:bg-gray-700 rounded-md px-6 py-1.5">Reset</button>
         </div>
-        <div className="w-full flex justify-between py-1">
-          <p className="text-xl font-montserrat">
+        <div className="w-full flex flex-wrap justify-between py-1">
+          <p className="text-lg sm:text-xl font-montserrat">
             {sold} Bricks donated as on {today.getFullYear()}/
             {today.getMonth() + 1}/{today.getDate()}
           </p>
@@ -131,7 +131,7 @@ const BrickTable = () => {
             name="search"
             value={search}
             placeholder="Search for all fields.."
-            className="border border-gray-300 p-2 rounded-md ml-auto pr-12"
+            className="border border-gray-300 p-2 rounded-md mr-auto sm:ml-auto pr-12"
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>

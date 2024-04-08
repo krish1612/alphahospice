@@ -78,7 +78,7 @@ const Header = ({
   };
 
   return (
-    <div className="w-full h-24 wof-header flex justify-center md:justify-between px-4 sm:px-12 items-center py-2 border-b border-gray-100">
+    <div className="w-full h-32 sm:h-24 wof-header flex justify-center md:justify-between px-4 sm:px-12 items-center py-2 border-b border-gray-100">
       {/*Logo*/}
       <div className="gap-4 hidden md:flex items-center">
         <Link to="/" className="flex items-center w-16 h-12">

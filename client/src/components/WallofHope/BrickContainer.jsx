@@ -148,7 +148,7 @@ const BrickContainer = ({
 
 	return (
 		<div
-			className='w-full h-[90vh] bg-white flex justify-center items-center relative'
+			className='w-full h-[80vh] sm:h-[90vh] bg-white flex justify-center items-center relative'
 			ref={containerRef}
 			onClick={handlePanClick}
 			onContextMenu={handleRightClick}
