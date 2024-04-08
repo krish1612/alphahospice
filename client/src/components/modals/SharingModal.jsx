@@ -16,8 +16,11 @@ import {
 } from "react-share";
 
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { useState } from "react";
 
 const SharingModal = ({ hideModal }) => {
+  const [showEmailMessage, setShowEmailMessage] = useState(false);
+
   const handleClose = (e) => {
     e.preventDefault();
     if (e.target.id === "SharingModal-pan") {
@@ -27,6 +30,18 @@ const SharingModal = ({ hideModal }) => {
 
   const shareUrl = "https://api.alphahospice.org";
   const shareimage = "https://api.alphahospice.org/share.jpg";
+
+  const handleEmailButtonClick = () => {
+    setShowEmailMessage(true);
+  };
+
+  const shareByEmail = () => {
+    var subject = "Check out this link!";
+    var body =
+      "I thought you might be interested in this link: " + window.location.href;
+    var mailtoLink = "mailto:?subject=" + subject + "&body=" + body;
+    window.location.href = mailtoLink;
+  };
 
   return (
     <div
@@ -40,7 +55,9 @@ const SharingModal = ({ hideModal }) => {
         style={{ zIndex: 999 }}
       >
         <div className="w-full flex justify-between">
-          <p className="text-xl text-start font-bold mt-5 px-8">Help by Sharing...</p>
+          <p className="text-xl text-start font-bold mt-5 px-8">
+            Help by Sharing...
+          </p>
           <IoCloseCircleOutline
             onClick={() => hideModal()}
             size={24}
@@ -70,18 +87,29 @@ const SharingModal = ({ hideModal }) => {
             <label>Whatsapp</label>
           </div>
           <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
-            <EmailShareButton
-              url={shareUrl}
-              image={shareimage}
-              subject="One Brick"
-              body="body"
-            >
-              <EmailIcon size={32} round />
-            </EmailShareButton>
+            <EmailIcon size={32} round onClick={shareByEmail} />
             <label>Email</label>
           </div>
         </div>
       </div>
+
+      {showEmailMessage && (
+        <div className="email-message-modal">
+          <div className="email-message">
+            <p>
+              Welcome to the Wall of Hope, a visual representation of collective
+              support and compassion at Alpha Hospice. Each brick you see is a
+              chance to contribute meaningfully. By clicking on a virtual brick,
+              you can personalize it with your message or dedication and then
+              proceed with your donation. Your participation not only aids in
+              building our hospice but also weaves your story into our community
+              tapestry. Join us in this significant endeavor-every brick, every
+              contribution, brings us closer to realizing our shared vision of
+              care and dignity.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
