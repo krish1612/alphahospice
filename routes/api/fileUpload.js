@@ -1,8 +1,6 @@
 const express = require("express");
 const fs = require("fs").promises;
 const router = express.Router();
-let filePath = "./uploads/myString.txt";
-
 
 router.post("/image", async (req, res) => {
   try {
@@ -16,7 +14,7 @@ router.post("/image", async (req, res) => {
     await Promise.all(
       files.map(async (file) => {
         if (imageData[file] !== "") {
-          const filePath = `./uploads/${file}.txt`;
+          const filePath = `uploads/${file}.txt`;
           // Write the Base64 string to file asynchronously
           await fs.writeFile(filePath, imageData[file]);
         }

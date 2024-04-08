@@ -10,7 +10,7 @@ router.get("/get", async (req, res) => {
     const resultsWithImages = await Promise.all(
       results.map(async (item) => {
         try {
-          const imagePath = `./uploads/social/${item.mediaType}.txt`;
+          const imagePath = `./upload/social/${item.mediaType}.txt`;
           const image = await fs.readFile(imagePath, "utf8");
           return {
             ...item._doc, // Spread operator to copy properties from item._doc
@@ -32,7 +32,7 @@ router.get("/get", async (req, res) => {
 router.post("/insert", async (req, res) => {
   try {
     console.log("body", req.body);
-    const filePath = `./uploads/social/${req.body.mediaType}.txt`;
+    const filePath = `./upload/social/${req.body.mediaType}.txt`;
 
     // Correctly using fs.promises.writeFile to write to the file.
     await fs.writeFile(filePath, req.body.base64String);
