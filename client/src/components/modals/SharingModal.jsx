@@ -125,7 +125,7 @@ const SharingModal = ({ hideModal }) => {
           style={{ zIndex: 999 }}
           onClick={messageClose}
         >
-          <div className="email-message w-72 h-64 p-4 overflow-y-auto scroll-hidden bg-gray-800/80 rounded-md flex flex-col">
+          <div className="email-message w-80 h-64 p-4 overflow-y-auto scroll-hidden bg-gray-800/80 rounded-md flex flex-col">
             <span>
               <IoIosCopy
                 onClick={copyToClipboard}
