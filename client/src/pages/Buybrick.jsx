@@ -2,14 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import axios from "axios";
+// import axios from "axios";
 
 //import actions and reducers
 import { getDonor } from "../actions/donor";
 import { createOrder } from "../actions/payment";
 import { buyBrick, getBricks } from "../actions/brick";
 import { getBrickSoldAmount } from "../actions/brick";
-import { setAlertWithTimeout } from "../features/alertSlice";
+// import { setAlertWithTimeout } from "../features/alertSlice";
 import { clearOrder } from "../features/paymentSlice";
 import { clearCurrent } from "../features/brickSlice";
 
@@ -208,6 +208,8 @@ const Buybrick = () => {
   };
 
   const setBuybrickModalInCenter = () => {
+    setIsVideoModalOpen1(false);
+    setIsVideoModalOpen2(false);
     const stage = 4 - Math.ceil((sold + 1) / quarter);
     console.log(stage);
     const CurrentBricks = bricks
@@ -400,25 +402,25 @@ const Buybrick = () => {
         name: "Soumya Corp.",
         description: "Test Transaction",
         order_id: order_id,
-        handler: async function (response) {
-          const data = {
-            orderCreationId: order_id,
-            razorpayPaymentId: response.razorpay_payment_id,
-            razorpayOrderId: response.razorpay_order_id,
-            razorpaySignature: response.razorpay_signature,
-          };
+        handler: async function () {
+          // const data = {
+          //   orderCreationId: order_id,
+          //   razorpayPaymentId: response.razorpay_payment_id,
+          //   razorpayOrderId: response.razorpay_order_id,
+          //   razorpaySignature: response.razorpay_signature,
+          // };
 
-          const result = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/api/payment/success`,
-            data
-          );
+          // const result = await axios.post(
+          //   `${import.meta.env.VITE_BACKEND_URL}/api/payment/success`,
+          //   data
+          // );
 
-          dispatch(
-            setAlertWithTimeout({
-              alertType: "success",
-              content: result.data.msg,
-            })
-          );
+          // dispatch(
+          //   setAlertWithTimeout({
+          //     alertType: "success",
+          //     content: result.data.msg,
+          //   })
+          // );
           const brickData = {
             brick_id: bricks[clickedIndex].brick_id,
             user: userId,
