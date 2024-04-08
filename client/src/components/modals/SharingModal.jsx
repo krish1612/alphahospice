@@ -2,13 +2,8 @@ import PropTypes from "prop-types";
 
 import {
   EmailIcon,
-  EmailShareButton,
   FacebookIcon,
   FacebookShareButton,
-  // TelegramIcon,
-  // TelegramShareButton,
-  // LinkedinIcon,
-  // LinkedinShareButton,
   TwitterShareButton,
   WhatsappIcon,
   WhatsappShareButton,
@@ -16,7 +11,11 @@ import {
 } from "react-share";
 
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { IoIosCopy } from "react-icons/io";
 import { useState } from "react";
+
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 
 const SharingModal = ({ hideModal }) => {
   const [showEmailMessage, setShowEmailMessage] = useState(false);
@@ -28,12 +27,17 @@ const SharingModal = ({ hideModal }) => {
     }
   };
 
-  const shareUrl = "https://api.alphahospice.org";
-  const shareimage = "https://api.alphahospice.org/share.jpg";
-
-  const handleEmailButtonClick = () => {
-    setShowEmailMessage(true);
+  const messageClose = (e) => {
+    if (e.target.id === "email-message-container") {
+      setShowEmailMessage(false);
+    }
   };
+
+  const shareUrl = "https://api.alphahospice.org";
+  // const shareimage = "https://api.alphahospice.org/share.jpg";
+
+  const shareText =
+    "Welcome to the Wall of Hope, a visual representation of collective support and compassion at Alpha Hospice. Each brick you see is a chance to contribute meaningfully. By clicking on a virtual brick, you can personalize it with your message or dedication and then proceed with your donation. Your participation not only aids in building our hospice but also weaves your story into our community tapestry. Join us in this significant endeavor-every brick, every contribution, brings us closer to realizing our shared vision of care and dignity.";
 
   const shareByEmail = () => {
     var subject = "Check out this link!";
@@ -41,6 +45,22 @@ const SharingModal = ({ hideModal }) => {
       "I thought you might be interested in this link: " + window.location.href;
     var mailtoLink = "mailto:?subject=" + subject + "&body=" + body;
     window.location.href = mailtoLink;
+    setShowEmailMessage(true);
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(shareText) // Use Clipboard API for modern browsers
+      .then(() => {
+        setShowEmailMessage(false);
+        toast.success("Copied successfully!", {
+          position: "top-right",
+        });
+      })
+      .catch((err) => {
+        console.error("Unable to copy to clipboard: ", err);
+        // Fallback to document.execCommand('copy') for older browsers if needed
+      });
   };
 
   return (
@@ -87,16 +107,33 @@ const SharingModal = ({ hideModal }) => {
             <label>Whatsapp</label>
           </div>
           <div className="w-32 flex flex-col justify-center items-center gap-3 py-6">
-            <EmailIcon size={32} round onClick={shareByEmail} />
+            <EmailIcon
+              size={32}
+              round
+              onClick={shareByEmail}
+              className=" cursor-pointer"
+            />
             <label>Email</label>
           </div>
         </div>
       </div>
-
+      <ToastContainer />
       {showEmailMessage && (
-        <div className="email-message-modal">
-          <div className="email-message">
-            <p>
+        <div
+          id="email-message-container"
+          className="w-full h-full absolute top-0 left-0 flex items-center justify-end px-36 bg-gray-100/50"
+          style={{ zIndex: 999 }}
+          onClick={messageClose}
+        >
+          <div className="email-message w-80 h-64 p-4 overflow-y-auto scroll-hidden bg-gray-800/80 rounded-md flex flex-col">
+            <span>
+              <IoIosCopy
+                onClick={copyToClipboard}
+                size={24}
+                className="cursor-pointer text-white text-2xl"
+              />
+            </span>
+            <p id="textToCopy" className="text-white">
               Welcome to the Wall of Hope, a visual representation of collective
               support and compassion at Alpha Hospice. Each brick you see is a
               chance to contribute meaningfully. By clicking on a virtual brick,
