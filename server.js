@@ -29,7 +29,7 @@ app.use("/api/supportWord", require("./routes/api/supportWord"));
 app.use("/api/social", require("./routes/api/socialMedia"));
 app.use("/api/trustee", require("./routes/api/trustee"));
 
-app.use("/upload", express.static("./uploads"));
+app.use("/uploads", express.static("./uploads"));
 // Serve static assets in production
 if (process.env.NODE_ENV === "production") {
   // Set static folder
