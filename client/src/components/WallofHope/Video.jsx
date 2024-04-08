@@ -31,20 +31,20 @@ const VideoModal = ({ hideModal, url }) => {
       onClick={handleClose}
     >
       <span
-        className="absolute top-2 right-2 cursor-pointer text-black"
+        className="absolute top-2 right-2 cursor-pointer text-white"
         onClick={hideModal}
       >
         <IoClose size={24} />
       </span>
-      {url && <iframe
-        src={`https://www.youtube.com/embed/${getYouTubeID(
-          url
-        )}`}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        title="Upload"
-        className="inline-block h-full w-full object-cover"
-      />}
+      {url && (
+        <iframe
+          src={`https://www.youtube.com/embed/${getYouTubeID(url)}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          title="Upload"
+          className="inline-block h-full w-full object-cover"
+        />
+      )}
     </div>
   );
 };
