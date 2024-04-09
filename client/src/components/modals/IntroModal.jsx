@@ -48,8 +48,10 @@ const IntroModal = ({ handleNextModal }) => {
     }
   };
   const handleChangeLocation = (e) => {
+    if (e.target.value == 0) setCountry("India");
     setUserLocation(e.target.value);
   };
+
   const handleReadyPay = () => {
     const donoInfo = { location: locations[userLocation], country: country };
     dispatch(setAmountOfReduce(amount));

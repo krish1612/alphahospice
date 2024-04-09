@@ -41,6 +41,7 @@ router.post("/google-register", async (req, res) => {
       }
     );
     const { email, family_name, given_name, picture } = response.data;
+
     const fullName = given_name + " " + family_name;
 
     let user = await User.findOne({ email });

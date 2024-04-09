@@ -460,7 +460,7 @@ const About = () => {
                         "path_to_default_image"
                       }
                       alt="Trustee Avatar"
-                      className="w-full h-[12rem] rounded-md"
+                      className="w-full h-[12rem] object-cover rounded-md"
                     />
                     {/* Ensure `LinkedinIcon` component usage is correct */}
                     <a href={trustee.linkedin} target="blank">

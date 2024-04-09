@@ -33,7 +33,7 @@ const SharingModal = ({ hideModal }) => {
     }
   };
 
-  const shareUrl = "https://api.alphahospice.org";
+  const shareUrl = "https://0771-88-99-162-157.ngrok-free.app";
   // const shareimage = "https://api.alphahospice.org/share.jpg";
 
   const shareText =

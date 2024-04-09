@@ -78,7 +78,7 @@ const Header = ({
   };
 
   return (
-    <div className="w-full h-32 sm:h-24 wof-header flex justify-center md:justify-between px-4 sm:px-12 items-center py-2 border-b border-gray-100">
+    <div className="w-full sm:h-24 wof-header flex justify-center md:justify-between px-4 sm:px-12 items-center py-2 border-b border-gray-100">
       {/*Logo*/}
       <div className="gap-4 hidden md:flex items-center">
         <Link to="/" className="flex items-center w-16 h-12">
@@ -93,7 +93,7 @@ const Header = ({
         </p>
       </div>
 
-      <div className="w-full md:w-auto md:gap-3 xl:gap-6 flex flex-wrap justify-between mr-0 itmes-center">
+      <div className="w-full gap-2 md:w-auto md:gap-3 xl:gap-6 flex flex-wrap justify-between mr-0 itmes-center">
         {/* <div className="items-center hidden lg:flex">
           <input
             type="search"
@@ -102,20 +102,29 @@ const Header = ({
             onChange={(e) => onChangeSearchInput(e)}
           />
         </div> */}
+
         <button
           onClick={handleClick}
-          className="w-full sm:w-40 md:w-48 xl:w-56 h-10 sm:mx-0 border border-gray-500 hover:bg-black hover:text-white rounded-md font-medium  text-center lg:text-lg flex items-center self-center justify-center sm:my-1 py-1"
+          className="w-full sm:w-40 md:w-48 xl:w-56 h-10 sm:mx-0 border border-gray-500 hover:bg-black hover:text-white rounded-md font-medium  text-center lg:text-lg flex items-center self-center justify-center sm:my-1 py-1 order-6 sm:order-1"
         >
           WHERE&lsquo;S MY BRICK
         </button>
-
+        <div className="felx-1 mr-auto">
+          <Link to="/" className="flex sm:hidden items-center w-16 h-12">
+            <img
+              src={logoImg}
+              className="object-cover w-full max-w-none mr-auto"
+              alt="Logo"
+            />
+          </Link>
+        </div>
         {/*Share*/}
         <span
           className=" rounded-full flex justify-center items-center cursor-pointer  hover:text-sky-700"
           onClick={() => setIsShareModalOpen(true)}
         >
           <FaShare className="w-6 sm:w-8 h-6 sm:h-8 text-gray-400 sm:mr-1" />
-          <span className="text-xs sm:text-sm md:text-md xl:text-lg lg:font-simibold font-sans">
+          <span className="hidden sm:flex text-xs sm:text-sm md:text-md xl:text-lg lg:font-simibold font-sans">
             SHARE
           </span>
         </span>
@@ -130,7 +139,7 @@ const Header = ({
               src={SupportWordIcon}
               className="w-7 sm:w-8 h-7 sm:h-8 rounded-full flex justify-center items-center cursor-pointer"
             />
-            <span className="text-xs sm:text-sm md:text-md xl:text-lg lg:font-simibold font-sans">
+            <span className="hidden sm:flex text-xs sm:text-sm md:text-md xl:text-lg lg:font-simibold font-sans mt-2 sm:mt-0">
               WORDS OF SUPPORT
             </span>
           </span>
@@ -147,7 +156,7 @@ const Header = ({
         {/* User Avatar  */}
         <Menu
           as="div"
-          className="relative flex justify-center itmes-center sm:order-4"
+          className="relative flex justify-center itmes-center sm:order-5"
         >
           <Menu.Button className="btn rounded-full">
             <img

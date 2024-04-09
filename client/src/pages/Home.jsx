@@ -859,11 +859,11 @@ const Home = () => {
       <div className="flex flex-wrap items-center w-full bg-gray-200  px-8 sm:px-16 md:px-24 lg:px-32 xl:px-48 2xl:px-64 lg:py-12 2xl:py-24 relative justify-center">
         <div className="w-full lg:w-1/3 h-[40vh] xl:h-[50vh] 2xl:h-[60vh] flex justify-center py-8 lg:py-0 z-10 items-center relative">
           <ImageUpload
-            fileName={fileList[7]}
-            previewFile={imgSrc[fileList[7]]}
+            fileName={fileList[0]}
+            previewFile={imgSrc[fileList[0]]}
             onFileSelect={handleFileChange}
             loading={
-              currentLoadingComponent === fileList[7] && uploadImageLoading
+              currentLoadingComponent === fileList[0] && uploadImageLoading
             }
             className="w-full"
           />

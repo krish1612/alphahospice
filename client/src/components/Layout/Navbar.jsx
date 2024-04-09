@@ -122,7 +122,7 @@ export default function Navbar() {
                 Donors
               </NavLink>
             </li>
-            <li className="flex mr-6">
+            {/* <li className="flex mr-6">
               <NavLink
                 to="/beneficiaries"
                 className={({ isActive }) =>
@@ -132,7 +132,7 @@ export default function Navbar() {
               >
                 Beneficiaries
               </NavLink>
-            </li>
+            </li> */}
             <li className="flex mr-6">
               <NavLink
                 to="/contact"
