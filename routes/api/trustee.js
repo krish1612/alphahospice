@@ -38,7 +38,6 @@ router.post("/save", upload.single("avatar"), async (req, res) => {
 
 router.get("/get", async (req, res) => {
   try {
-    // Fetch all trustees including their avatar URLs
     const trustees = await Trustee.find().lean();
 
     res.json(trustees);
@@ -52,8 +51,9 @@ router.get("/get", async (req, res) => {
 
 router.post("/delete", async (req, res) => {
   try {
-    const result = await Trustee.findByIdAndDelete(req.body.id)
-    res.json(result)
+    console.log("req.body.id", req.body);
+    const result = await Trustee.findByIdAndDelete(req.body.id);
+    res.json(result);
   } catch (error) {
     console.error(`Error during /delete route processing: ${error.message}`);
     res.status(500).send("Server error");

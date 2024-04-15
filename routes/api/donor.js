@@ -112,6 +112,7 @@ router.get("/current-donors", async (req, res) => {
         $project: {
           avatar: "$user.picture",
           fullName: 1,
+          email: "$user.email",
           purchasedBricksCount: 1,
         },
       },

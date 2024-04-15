@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 const DonorCard = ({ donorData }) => {
 	const navigate = useNavigate();
 	
-	const { avatar, fullName, purchasedBricksCount } = donorData;
-
-	const buybrickState = {
-		isSlideModalOpen: true,
-		donorName: fullName,
-		pageContent: 7
-	}	
+	const { avatar, fullName, purchasedBricksCount, email } = donorData;
+  console.log(donorData);
+  const buybrickState = {
+    isSlideModalOpen: true,
+    donorName: email,
+    pageContent: 7,
+  };	
 
 	const handleClickReadMore = () => {
 		navigate('/buybrick', {state: buybrickState})

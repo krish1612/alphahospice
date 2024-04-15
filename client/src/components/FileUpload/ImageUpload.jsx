@@ -1,8 +1,10 @@
 import PropTypes from "prop-types";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
-import UploadImageLoading from './UploadImageLoading';
+import UploadImageLoading from "./UploadImageLoading";
 
 const ImageUpload = ({
   previewFile,
@@ -24,7 +26,7 @@ const ImageUpload = ({
   }, [token]);
 
   const classNames = (...classes) => {
-    return classes.filter(Boolean).join(' ');
+    return classes.filter(Boolean).join(" ");
   };
 
   const handleChangeFile = (e) => {
@@ -45,7 +47,7 @@ const ImageUpload = ({
           />
         )}
         <label htmlFor={fileName} className="flex justify-center w-full h-full">
-          <img
+          <LazyLoadImage
             src={previewFile}
             alt="Upload"
             loading="lazy"
@@ -64,7 +66,7 @@ ImageUpload.propTypes = {
   previewFile: PropTypes.string.isRequired,
   fileName: PropTypes.string.isRequired,
   onFileSelect: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   className: PropTypes.string,
 };
 

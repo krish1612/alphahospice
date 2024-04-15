@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {useDispatch} from "react-redux"
+import { useDispatch } from "react-redux";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { LinkedinIcon } from "react-share";
@@ -8,8 +8,8 @@ import { LinkedinIcon } from "react-share";
 import { FaRegUser } from "react-icons/fa";
 import { clearLoading, setLoading } from "../../features/loadingSlice";
 
-export default function Trustee() {
-  const dispatch = useDispatch()
+export default function TrusteeManage() {
+  const dispatch = useDispatch();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [trustees, setTrustees] = useState([]);
@@ -67,7 +67,7 @@ export default function Trustee() {
     }
 
     try {
-      dispatch(setLoading())
+      dispatch(setLoading());
       const response = await fetch(`${backendUrl}/api/trustee/save`, {
         method: "POST",
         body: formData,
@@ -83,14 +83,15 @@ export default function Trustee() {
       } else {
         console.error("Failed to save trustee data");
       }
-      dispatch(clearLoading())
+      dispatch(clearLoading());
     } catch (error) {
       console.error("An error occurred while saving trustee data:", error);
-      dispatch(clearLoading())
+      dispatch(clearLoading());
     }
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = (trusteeId) => {
+    console.log(trusteeId);
     confirmAlert({
       title: "Delete!",
       message: "Are you sure to delete it?",
@@ -102,12 +103,17 @@ export default function Trustee() {
               dispatch(setLoading());
               const response = await fetch(`${backendUrl}/api/trustee/delete`, {
                 method: "POST",
-                body: {id: trustees[index]._id}
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id: trusteeId }),
               });
               if (response.ok) {
-                setTrustees((trustee) => trustee.filter((trustee, no) => no !== index))
+                setTrustees((trustee) =>
+                  trustee.filter((trustee) => trustee._id !== trusteeId)
+                );
               }
-              
+
               dispatch(clearLoading());
             } catch (error) {
               console.error("Error occurred while deleting the item:", error);
@@ -120,7 +126,7 @@ export default function Trustee() {
         },
       ],
     });
-  }
+  };
 
   console.log(trustees);
   return (
@@ -149,7 +155,12 @@ export default function Trustee() {
               {trustee.fullName}
             </span>
             <span className="text-black text-lg">{trustee.title}</span>
-            <button onClick={() => handleDelete(index)} className="w-full py-1 rounded-sm bg-yellow-500 text-black">Delete</button>
+            <button
+              onClick={() => handleDelete(trustee._id)}
+              className="w-full py-1 rounded-sm bg-yellow-500 text-black"
+            >
+              Delete
+            </button>
           </div>
         ))}
       </div>

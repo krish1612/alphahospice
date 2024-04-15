@@ -1,42 +1,69 @@
-import { useCallback, useEffect, useState } from "react";
+import { lazy, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-// import axios from "axios";
 
-//import actions and reducers
 import { getDonor } from "../actions/donor";
 import { createOrder } from "../actions/payment";
 import { buyBrick, getBricks } from "../actions/brick";
 import { getBrickSoldAmount } from "../actions/brick";
-// import { setAlertWithTimeout } from "../features/alertSlice";
+import { getContents } from "../actions/content";
+
 import { clearOrder } from "../features/paymentSlice";
 import { clearCurrent } from "../features/brickSlice";
 
-// Import modal components
-import BrickInformationModal from "../components/modals/BrickInformationModal";
-import SoldModal from "../components/modals/SoldModal";
-// import SharingModal from "../components/modals/SharingModal";
-import Popup from "../components/modals/Popup";
-import "../Modal.css";
+const SoldModal = lazy(() => import("../components/modals/SoldModal"));
+const Popup = lazy(() => import("../components/modals/Popup"));
+const MemoizedHeader = lazy(() => import("../components/WallofHope/Header"));
+const ArrowUpButton = lazy(() => import("../components/ArrowUpButton"));
+const VideoModal = lazy(() => import("../components/WallofHope/Video"));
+const SharingModal = lazy(() => import("../components/modals/SharingModal"));
+const BrickInformationModal = lazy(
+  () => import("../components/modals/BrickInformationModal")
+);
+const WordsofSupportsModal = lazy(
+  () => import("../components/modals/WordsofSupportsModal")
+);
+const SlideModalContainer = lazy(
+  () => import("../components/modals/SlideModalContainer")
+);
+const MemorizedBrickContainer = lazy(
+  () => import("../components/WallofHope/BrickContainer")
+);
+const MemorizedBuybrickModal = lazy(
+  () => import("../components/modals/BuyBrickModal")
+);
+const DedicatedBrickInfoModal = lazy(
+  () => import("../components/modals/DedicatedBrickInfoModal")
+);
 
-import WordsofSupportsModal from "../components/modals/WordsofSupportsModal";
-import SlideModalContainer from "../components/modals/SlideModalContainer";
-import MemoizedHeader from "../components/WallofHope/Header";
-import MemorizedBrickContainer from "../components/WallofHope/BrickContainer";
-import MemorizedBuybrickModal from "../components/modals/BuyBrickModal";
-import ArrowUpButton from "../components/ArrowUpButton";
-import VideoModal from "../components/WallofHope/Video";
-import DedicatedBrickInfoModal from "../components/modals/DedicatedBrickInfoModal";
-// import NewShareModal from "../components/modals/newShareModal";
-import SharingModal from "../components/modals/SharingModal";
-import { getContents } from "../actions/content";
+import "../Modal.css";
 
 const Buybrick = () => {
   const quarter = import.meta.env.VITE_BRICK_COUNT / 4;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
+
+  // Fetch brick states
+  const { bricks } = useSelector((state) => state.brick);
+  const { amount } = useSelector((state) => state.brick.current);
+  const { sold } = useSelector((state) => state.admin);
+
+  // Fetch payment states
+  const { order } = useSelector((state) => state.payment);
+
+  const [hiddenHeight, setHiddenHeight] = useState("h-3/4");
+  const [clickedIndex, setClickedIndex] = useState(null);
+  const [hovered, setHovered] = useState({});
+  const [filtered, setFiltered] = useState([]);
+  const [search, setSearch] = useState(null);
+  const [dedicatedBrickId, setDedicatedBrickId] = useState("");
+
+  const { contents } = useSelector((state) => state.content);
+
+  const [video1, setVideo1] = useState("");
+  const [video2, setVideo2] = useState("");
 
   const { isAuthenticated, token } = useSelector((state) => state.auth);
 
@@ -45,7 +72,7 @@ const Buybrick = () => {
 
     setIsSlideModalOpen(initialState.isSlideModalOpen);
     setModalContent(initialState.pageContent);
-    setDonorName(initialState.donorName);
+    setSearch(initialState.donorName);
   }, [location]);
 
   // Initialize userId
@@ -63,26 +90,6 @@ const Buybrick = () => {
     dispatch(getBricks());
     dispatch(getBrickSoldAmount());
   }, [dispatch]);
-  // Fetch brick states
-  const { bricks } = useSelector((state) => state.brick);
-  const { amount } = useSelector((state) => state.brick.current);
-  const { sold } = useSelector((state) => state.admin);
-
-  // Fetch payment states
-  const { order } = useSelector((state) => state.payment);
-
-  const [hiddenHeight, setHiddenHeight] = useState("h-3/4");
-  const [clickedIndex, setClickedIndex] = useState(null);
-  const [hovered, setHovered] = useState({});
-  const [filtered, setFiltered] = useState([]);
-  const [search, setSearch] = useState(null);
-  const [donorname, setDonorName] = useState("");
-  const [dedicatedBrickId, setDedicatedBrickId] = useState("");
-
-  const { contents } = useSelector((state) => state.content);
-
-  const [video1, setVideo1] = useState(""); 
-  const [video2, setVideo2] = useState(""); 
 
   useEffect(() => {
     dispatch(getContents());
@@ -314,7 +321,6 @@ const Buybrick = () => {
 
   const handleClickDonorName = (name) => {
     handleSetSearch(name);
-    setDonorName(name);
     setTimeout((setModalContent(7), setIsSlideModalOpen(true)), 300);
   };
 
@@ -595,7 +601,6 @@ const Buybrick = () => {
           handleBuyBrick={handleBuyBrick}
           dedicationBrickId={clickedIndex ? bricks[clickedIndex].brick_id : ""}
           handleConfirm={handleConfirm}
-          // handleDedicate={handleDedicate}
           handleSkipDedication={handleSkipDedication}
           handleShowAll={(brickIDs) => handleSetFiltered(brickIDs)}
           handleGoToDedicate={handleGoToDedicate}
@@ -603,7 +608,6 @@ const Buybrick = () => {
           hideModal={() => setIsSlideModalOpen(false)}
           clickedIndex={clickedIndex}
           filtered={filtered}
-          donorName={donorname}
         />
       )}
       {isBuyBrickModalOpen && (

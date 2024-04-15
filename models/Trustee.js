@@ -11,7 +11,6 @@ const TrusteeSchema = new mongoose.Schema({
   },
   title: {
     type: String,
-    unique: true,
   },
   avatar: {
     type: String,

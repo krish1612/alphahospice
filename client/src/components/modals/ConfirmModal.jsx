@@ -16,8 +16,8 @@ const ConfirmModal = ({
 }) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-
   const [masterId, setMasterId] = useState(null);
+  const [userId, setUserId] = useState("");
   useEffect(() => {
     if (token) {
       const { id } = jwtDecode(token);
@@ -27,11 +27,12 @@ const ConfirmModal = ({
     }
   }, [token, dispatch]);
 
-  const userId = filtered[0].user;
-
   useEffect(() => {
-    dispatch(getUser(userId));
-  }, [userId]);
+    if (filtered && filtered.length > 0) {
+      setUserId(filtered[0].user);
+      dispatch(getUser(filtered[0].user));
+    }
+  }, [filtered]);
 
   const { user } = useSelector((state) => state.user);
   const { bricks } = useSelector((state) => state.brick);

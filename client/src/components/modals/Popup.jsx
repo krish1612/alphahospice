@@ -33,6 +33,7 @@ const Popup = ({
   const totalPages = Math.ceil(currentDonors.length / limit);
   const startPoint = (currentPage - 1) * limit;
 
+
   useEffect(() => {
     if (modalRef.current) {
       modalRef.current.scrollTo({ top: 300, behavior: "smooth" });
@@ -44,11 +45,9 @@ const Popup = ({
     dispatch(getWords());
   }, [dispatch]);
 
-  const handleClick = (e) => {
-    if (e.currentTarget) {
-      setDonorName(e.currentTarget.id);
-      hideModal();
-    }
+  const handleClick = (email) => {
+    setDonorName(email);
+    hideModal();
   };
 
   const handleClickAddWordsOfSupport = () => {
@@ -92,9 +91,9 @@ const Popup = ({
                     .map((item, index) => (
                       <div
                         key={index}
-                        id={item.fullName}
+                        id={item.email}
                         className="flex gap-4 cursor-pointer hover:bg-stone-200 py-2 px-4 rounded-md"
-                        onClick={(e) => handleClick(e)}
+                        onClick={() => handleClick(item.email)}
                       >
                         <img
                           src={item.avatar}

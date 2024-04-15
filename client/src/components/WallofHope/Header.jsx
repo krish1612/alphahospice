@@ -29,7 +29,7 @@ const Header = ({
   const { avatar } = useSelector((state) => state.auth);
   const { isAuthenticated, token } = useSelector((state) => state.auth);
 
-  const [donorFullName, setDonorFullName] = useState("");
+  const [email, setEmail] = useState("");
 
   const userAvatar = avatar ? avatar : UserImg;
 
@@ -38,8 +38,8 @@ const Header = ({
 
   useEffect(() => {
     if (token) {
-      const { role, fullName } = jwtDecode(token);
-      setDonorFullName(fullName);
+      const { role, email } = jwtDecode(token);
+      setEmail(email);
       setUserRole(role);
     } else {
       setUserRole(null);
@@ -66,8 +66,8 @@ const Header = ({
   };
 
   const handleClick = () => {
-    if (donorFullName) {
-      setDonorName(donorFullName);
+    if (email) {
+      setDonorName(email);
     } else {
       alert("Please sign in");
     }

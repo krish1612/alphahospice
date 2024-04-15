@@ -122,17 +122,17 @@ export default function Navbar() {
                 Donors
               </NavLink>
             </li>
-            {/* <li className="flex mr-6">
+            <li className="flex mr-6">
               <NavLink
-                to="/beneficiaries"
+                to="/trustee"
                 className={({ isActive }) =>
                   "block py-2 font-raleway text-gray-700 hover:scale-110 hover:font-bold growable-underline" +
                   (isActive ? " active-underline" : "")
                 }
               >
-                Beneficiaries
+                Trustee
               </NavLink>
-            </li> */}
+            </li>
             <li className="flex mr-6">
               <NavLink
                 to="/contact"
